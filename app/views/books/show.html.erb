@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-md-4">
+    <%= image_tag @book.book_img.url(:book_show), class:"book-show" %>
+    </div>
+
+    <div class="col-md-8">
+        <h2><%= @book.title %></h2>
+        <h3><%= @book.author %></h3>
+        <h2>Average Rating</h2>
+        <div class="average-review-rating" data-score=<%= @average_review %>></div>
+        <%# <h4>Category: <%=@book.category.name</h4>  %>
+        <span></span>
+        <p><%= @book.description %></p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+
+    <%= render @book.reviews %>
+
+        <%# Where the reviews/ratings will go %>
+<% if user_signed_in? %>
+        <%= link_to "Add Review", new_book_review_path(@book)%>
+        <%end%>
+    </div>
+</div>
+
+<%= link_to "Back", root_path %>
+
+<% if user_signed_in? %>
+    <% if @book.user_id == current_user.id%>
+        <%= link_to "Edit", edit_book_path(@book) %>
+        <%= link_to "Delete", book_path(@book), method: :delete, data: {confirm: "Are you sure?"} %>
+    <% end %>
+<% end %>
+
+<script>
+    $('.review-rating').raty({
+        readOnly: true,
+        score: function(){
+            return $(this).attr('data-score');
+        },
+        path: '/assets/'
+    });
+</script>
+
+<script>
+</script>
